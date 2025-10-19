@@ -29,3 +29,33 @@ A **web application** that predicts the likelihood of a patient having **heart d
 1. Clone the repository:
 ```bash
 git clone https://github.com/Lahari-4306/HeartDisease-Detection.git
+```
+2.Go to the Project Folder
+```bash
+cd HeartDisease-Detection
+```
+3.Install required libraries:
+```bash
+pip install -r requirements.txt
+```
+
+## Run the app:
+```bash
+streamlit run app.py
+```
+## Dependencies
+
+- streamlit
+- numpy
+- pandas
+- scikit-learn
+- joblib
+
+## Repository Contents
+
+- app.py — Streamlit web app code
+- heart_disease_model.pkl — Trained Logistic Regression model
+- requirements.txt — Python dependencies
+## Author
+- Lahari Puppala
+- laharipuppala6@gmail.com
