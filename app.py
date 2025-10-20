@@ -2,10 +2,11 @@ import streamlit as st
 import joblib
 import numpy as np
 
-# Load model
+# Load model and scaler
 model = joblib.load('heart_disease_model.pkl')
+scaler = joblib.load('scaler.pkl')
 
-st.title("💖 Heart Disease Prediction App")
+st.title("🫀 Heart Disease Prediction App")
 st.write("Enter patient details below to predict heart disease:")
 
 # 13 input fields
@@ -30,7 +31,8 @@ sex = 1 if sex == "Male" else 0
 if st.button("Predict"):
     input_data = np.array([[age, sex, cp, trestbps, chol, fbs, restecg,
                             thalach, exang, oldpeak, slope, ca, thal]])
-    prediction = model.predict(input_data)[0]
+    input_scaled = scaler.transform(input_data)
+    prediction = model.predict(input_scaled)[0]
 
     if prediction == 1:
         st.error("⚠️ The model predicts **Heart Disease**. Please consult a doctor.")
