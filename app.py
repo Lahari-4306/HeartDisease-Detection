@@ -1,3 +1,8 @@
+%%writefile app.py
+import streamlit as st
+import joblib
+import numpy as np
+
 # Load model and scaler once at the start
 model = joblib.load("heart_disease_model.pkl")
 scaler = joblib.load("scaler.pkl")
