@@ -1,12 +1,13 @@
 import streamlit as st
 import joblib
-import numpy as np
 
-# Load model and scaler at the start
+# Load model
 model = joblib.load('heart_disease_model.pkl')
-scaler = joblib.load('scaler.pkl')
 
-st.title(" Heart Disease Prediction App")
+# Create a scaler (temporary – matches training method)
+scaler = StandardScaler()
+
+st.title("Heart Disease Prediction App")
 st.write("Enter patient details below to predict heart disease:")
 
 # 13 input fields
@@ -24,17 +25,20 @@ slope = st.selectbox("Slope of peak exercise ST segment (0–2)", [0, 1, 2])
 ca = st.selectbox("Number of major vessels (0–3) colored by fluoroscopy", [0, 1, 2, 3])
 thal = st.selectbox("Thalassemia (0=normal, 1=fixed defect, 2=reversible defect)", [0, 1, 2])
 
-# Convert categorical fields to numeric
-sex_val = 1 if sex == "Male" else 0
+# Convert sex to numeric
+sex = 1 if sex == "Male" else 0
 
 # Predict button
 if st.button("Predict"):
-    input_data = np.array([[age, sex_val, cp, trestbps, chol, fbs, restecg,
+    input_data = np.array([[age, sex, cp, trestbps, chol, fbs, restecg,
                             thalach, exang, oldpeak, slope, ca, thal]])
-    input_scaled = scaler.transform(input_data)  # scale inputs
+    
+    # 🔹 Scale the input before prediction
+    input_scaled = scaler.fit_transform(input_data)
+    
     prediction = model.predict(input_scaled)[0]
 
     if prediction == 1:
-        st.error("⚠️ Prediction: Heart Disease")
+        st.error("⚠️ The model predicts **Heart Disease**. Please consult a doctor.")
     else:
-        st.success("✅ Prediction: No Heart Disease")
+        st.success("✅ The model predicts **No Heart Disease**.")
